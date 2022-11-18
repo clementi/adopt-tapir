@@ -87,6 +87,11 @@ func main() {
 			},
 		},
 		Action: func(ctx *cli.Context) error {
+			if ctx.Bool("version") {
+				cli.ShowVersion(ctx)
+				return nil
+			}
+
 			options := buildOptions(ctx)
 			return downloadProject(options)
 		},
