@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -16,6 +17,8 @@ type options struct {
 	includeSwagger bool
 	includeMetrics bool
 }
+
+var version string = "0.1.0"
 
 func main() {
 	app := &cli.App{
@@ -72,11 +75,22 @@ func main() {
 				Aliases:  []string{"m"},
 			},
 			&cli.BoolFlag{
-				Name:     "version",
+				Name:     "verbose",
 				Value:    true,
 				Required: false,
-				Usage:    "show version",
+				Usage:    "verbose output",
 				Aliases:  []string{"v"},
+			},
+		},
+		Commands: []*cli.Command{
+			{
+				Name:    "version",
+				Aliases: []string{"v"},
+				Action: func(ctx *cli.Context) error {
+					fmt.Printf("version %s\n", version)
+					return nil
+				},
+				Usage: "Shows the program version",
 			},
 		},
 		Action: func(ctx *cli.Context) error {
@@ -103,5 +117,5 @@ func buildOptions(ctx *cli.Context) options {
 }
 
 func downloadProject(options options) error {
-	return nil
+	return nil // TODO
 }
