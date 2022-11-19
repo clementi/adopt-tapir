@@ -1,8 +1,15 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
 	"log"
+	"math/rand"
+	"net/http"
 	"os"
+	"time"
 
 	"github.com/urfave/cli/v2"
 )
@@ -15,6 +22,18 @@ type options struct {
 	jsonLibrary    string
 	includeSwagger bool
 	includeMetrics bool
+}
+
+type requestPayload struct {
+	ProjectName      string `json:"projectName"`
+	GroupId          string `json:"groupId"`
+	Effect           string `json:"effect"`
+	Implementation   string `json:"implementation"`
+	ScalaVersion     string `json:"scalaVersion"`
+	Builder          string `json:"builder"`
+	Json             string `json:"json"`
+	AddDocumentation bool   `json:"addDocumentation"`
+	AddMetrics       bool   `json:"addMetrics"`
 }
 
 func main() {
@@ -93,7 +112,11 @@ func main() {
 			}
 
 			options := buildOptions(ctx)
-			return downloadProject(options)
+
+			name := getName(ctx.Args().Get(0))
+			groupId := getGroupId(ctx.Args().Get(1))
+
+			return downloadProject(options, name, groupId)
 		},
 		HideHelpCommand: true,
 		HideVersion:     true,
@@ -117,6 +140,117 @@ func buildOptions(ctx *cli.Context) options {
 	}
 }
 
-func downloadProject(options options) error {
-	return nil // TODO
+func getName(name string) string {
+	if len(name) == 0 {
+		return generateName()
+	}
+	return name
+}
+
+func getGroupId(groupId string) string {
+	if len(groupId) == 0 {
+		return "com.example"
+	}
+	return groupId
+}
+
+func generateName() string {
+	rand.Seed(time.Now().UnixMilli())
+
+	adjectives := []string{"accurate", "dull", "intelligent", "shiny", "dark", "light", "level", "inaccurate", "stern", "determined", "speedy", "frosty", "arbitrary", "united"}
+	nouns := []string{"pelican", "turtle", "zebra", "elephant", "dog", "wolf", "caterpillar", "octopus", "tarsier", "snake", "monkey", "sloth", "spider", "koala", "panda", "seahorse"}
+
+	return fmt.Sprintf("%s-%s", adjectives[rand.Intn(len(adjectives))], nouns[rand.Intn(len(nouns))])
+}
+
+func downloadProject(options options, name string, groupId string) error {
+	payload := requestPayload{
+		ProjectName:      name,
+		GroupId:          groupId,
+		Effect:           getEffect(options.effect),
+		Implementation:   getImplementation(options.server),
+		ScalaVersion:     fmt.Sprintf("Scala%d", options.scalaVersion),
+		Builder:          getBuilder(options.buildTool),
+		Json:             getJson(options.jsonLibrary),
+		AddDocumentation: options.includeSwagger,
+		AddMetrics:       options.includeMetrics,
+	}
+
+	buf, err := json.Marshal(&payload)
+	if err != nil {
+		return err
+	}
+
+	resp, err := http.Post("https://adopt-tapir.softwaremill.com/api/v1/starter.zip", "application/json", bytes.NewBuffer(buf))
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+
+	fileName := fmt.Sprintf("%s-tapir-starter.zip", payload.ProjectName)
+
+	err = os.WriteFile(fileName, body, 0644)
+
+	if err == nil {
+		fmt.Printf("Wrote %s\n", fileName)
+	}
+
+	return err
+}
+
+func getEffect(effect string) string {
+	if effect == "cats" {
+		return "IOEffect"
+	} else if effect == "zio" {
+		return "ZIOEffect"
+	} else if effect == "future" {
+		return "FutureEffect"
+	} else {
+		return "unknown"
+	}
+}
+
+func getImplementation(server string) string {
+	if server == "netty" {
+		return "Netty"
+	} else if server == "vertx" {
+		return "VertX"
+	} else if server == "zio-http" {
+		return "ZIOHttp"
+	} else if server == "http4s" {
+		return "Http4s"
+	} else {
+		return "unknown"
+	}
+}
+
+func getBuilder(buildTool string) string {
+	if buildTool == "sbt" {
+		return "Sbt"
+	} else if buildTool == "scala-cli" {
+		return "ScalaCli"
+	} else {
+		return ""
+	}
+}
+
+func getJson(jsonLibrary string) string {
+	if jsonLibrary == "upickle" {
+		return "UPickle"
+	} else if jsonLibrary == "jsoniter" {
+		return "Jsoniter"
+	} else if jsonLibrary == "circe" {
+		return "Circe"
+	} else if jsonLibrary == "zio-json" {
+		return "ZIOJson"
+	} else if jsonLibrary == "no" {
+		return "no"
+	} else {
+		return ""
+	}
 }
