@@ -204,53 +204,53 @@ func downloadProject(options options, name string, groupId string) error {
 }
 
 func getEffect(effect string) string {
-	if effect == "cats" {
+	switch effect {
+	case "cats":
 		return "IOEffect"
-	} else if effect == "zio" {
+	case "zio":
 		return "ZIOEffect"
-	} else if effect == "future" {
+	case "future":
 		return "FutureEffect"
-	} else {
-		return "unknown"
 	}
+	return effect
 }
 
 func getImplementation(server string) string {
-	if server == "netty" {
+	switch server {
+	case "netty":
 		return "Netty"
-	} else if server == "vertx" {
+	case "vertx":
 		return "VertX"
-	} else if server == "zio-http" {
+	case "zio-http":
 		return "ZIOHttp"
-	} else if server == "http4s" {
+	case "http4s":
 		return "Http4s"
-	} else {
-		return "unknown"
 	}
+	return server
 }
 
 func getBuilder(buildTool string) string {
-	if buildTool == "sbt" {
+	switch buildTool {
+	case "sbt":
 		return "Sbt"
-	} else if buildTool == "scala-cli" {
+	case "scala-cli":
 		return "ScalaCli"
-	} else {
-		return ""
 	}
+	return buildTool
 }
 
 func getJson(jsonLibrary string) string {
-	if jsonLibrary == "upickle" {
+	switch jsonLibrary {
+	case "upickle":
 		return "UPickle"
-	} else if jsonLibrary == "jsoniter" {
+	case "jsoniter":
 		return "Jsoniter"
-	} else if jsonLibrary == "circe" {
+	case "circe":
 		return "Circe"
-	} else if jsonLibrary == "zio-json" {
+	case "zio-json":
 		return "ZIOJson"
-	} else if jsonLibrary == "no" {
+	case "no":
 		return "no"
-	} else {
-		return ""
 	}
+	return jsonLibrary
 }
