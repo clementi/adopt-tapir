@@ -36,6 +36,10 @@ type requestPayload struct {
 	AddMetrics       bool   `json:"addMetrics"`
 }
 
+type apiError struct {
+	Message string `json:"error"`
+}
+
 func main() {
 	app := &cli.App{
 		Name:  "adopt-tapir",
@@ -186,6 +190,20 @@ func downloadProject(options options, name string, groupId string) error {
 		return err
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		errorBody, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return err
+		} else {
+			apiErr := &apiError{}
+			err := json.Unmarshal(errorBody, apiErr)
+			if err != nil {
+				return err
+			}
+			return fmt.Errorf(apiErr.Message)
+		}
+	}
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
