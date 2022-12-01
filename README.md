@@ -1,5 +1,7 @@
 # adopt-tapir-cli-go
 
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/clementi/adopt-tapir-cli-go/Go)
+
 This project is a command-line interface to [Adopt Tapir](https://adopt-tapir.softwaremill.com).
 
 ## Building
