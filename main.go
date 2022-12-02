@@ -82,7 +82,7 @@ func main() {
 			},
 			&cli.BoolFlag{
 				Name:     "swagger",
-				Value:    true,
+				Value:    false,
 				Required: false,
 				Usage:    "include Swagger",
 				Aliases:  []string{"w"},
@@ -93,13 +93,6 @@ func main() {
 				Required: false,
 				Usage:    "include metrics",
 				Aliases:  []string{"m"},
-			},
-			&cli.BoolFlag{
-				Name:     "verbose",
-				Value:    true,
-				Required: false,
-				Usage:    "verbose output",
-				Aliases:  []string{"v"},
 			},
 			&cli.BoolFlag{
 				Name:     "version",
@@ -124,7 +117,7 @@ func main() {
 		},
 		HideHelpCommand: true,
 		HideVersion:     true,
-		Version:         "0.1.0",
+		Version:         "0.2.0",
 	}
 
 	if err := app.Run(os.Args); err != nil {
