@@ -16,7 +16,7 @@ This will produce an executable called `adopt-tapir-cli-go`.
 
 ## Binaries
 
-Binaries for Windows, Linux, macOS, and FreeBSD are available on the [Releases](https://github.com/clementi/adopt-tapir-cli-go/releases) page.
+Binaries for Windows, Linux, macOS, FreeBSD, NetBSD and OpenBSD are available on the [Releases](https://github.com/clementi/adopt-tapir-cli-go/releases) page.
 
 ## Usage
 
