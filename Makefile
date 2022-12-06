@@ -9,7 +9,7 @@ clean:
 run:
 	go run main.go
 
-build-arch:
+arch:
 	GOOS=darwin  GOARCH=amd64 go build -o bin/darwin-amd64-${NAME}
 	GOOS=darwin  GOARCH=arm64 go build -o bin/darwin-arm64-${NAME}
 	GOOS=freebsd GOARCH=amd64 go build -o bin/freebsd-amd64-${NAME}
