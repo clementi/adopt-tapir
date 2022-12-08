@@ -1,7 +1,5 @@
 module github.com/clementi/adopt-tapir
 
-replace github.com/clementi/adopt-tapir-cli-go => github.com/clementi/adopt-tapir@latest
-
 go 1.19
 
 require (
