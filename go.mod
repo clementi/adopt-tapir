@@ -1,4 +1,4 @@
-module github.com/clementi/adopt-tapir-cli-go
+module github.com/clementi/adopt-tapir
 
 go 1.19
 
