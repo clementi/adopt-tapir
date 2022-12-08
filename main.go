@@ -117,7 +117,7 @@ func main() {
 		},
 		HideHelpCommand: true,
 		HideVersion:     true,
-		Version:         "0.2.0",
+		Version:         "0.3.0",
 	}
 
 	if err := app.Run(os.Args); err != nil {
