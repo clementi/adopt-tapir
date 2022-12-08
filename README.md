@@ -1,4 +1,4 @@
-# adopt-tapir-cli-go
+# adopt-tapir
 
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/clementi/adopt-tapir-cli-go/Go)](https://github.com/clementi/adopt-tapir-cli-go/actions/workflows/go.yml)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/clementi/adopt-tapir-cli-go)](https://github.com/clementi/adopt-tapir-cli-go/releases)
