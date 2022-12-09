@@ -2,6 +2,8 @@ package main
 
 import "github.com/urfave/cli/v2"
 
+const version = "1.0.0"
+
 var App = &cli.App{
 	Name:  "adopt-tapir",
 	Usage: "Generate a Scala Tapir project.",
@@ -72,5 +74,5 @@ var App = &cli.App{
 	},
 	HideHelpCommand: true,
 	HideVersion:     true,
-	Version:         "0.3.0",
+	Version:         version,
 }
