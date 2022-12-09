@@ -7,18 +7,6 @@ var App = &cli.App{
 	Usage: "Generate a Scala Tapir project.",
 	Flags: []cli.Flag{
 		&cli.StringFlag{
-			Name:     "name",
-			Required: true,
-			Usage:    "name of project",
-			Aliases:  []string{"n"},
-		},
-		&cli.StringFlag{
-			Name:     "group-id",
-			Required: true,
-			Usage:    "group ID",
-			Aliases:  []string{"g"},
-		},
-		&cli.StringFlag{
 			Name:     "effect",
 			Value:    "cats",
 			Required: false,
@@ -80,7 +68,6 @@ var App = &cli.App{
 			cli.ShowVersion(ctx)
 			return nil
 		}
-
 		return DownloadProject(ctx)
 	},
 	HideHelpCommand: true,

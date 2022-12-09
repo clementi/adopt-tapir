@@ -27,10 +27,22 @@ type RequestPayload struct {
 	AddMetrics       bool   `json:"addMetrics"`
 }
 
-func BuildRequestPayload(ctx *cli.Context) RequestPayload {
-	return RequestPayload{
-		ProjectName:      ctx.String("name"),
-		GroupId:          ctx.String("group-id"),
+func BuildRequestPayload(ctx *cli.Context) (*RequestPayload, error) {
+	name := ctx.Args().Get(0)
+
+	if name == "" {
+		return nil, fmt.Errorf("required argument NAME not provided")
+	}
+
+	groupId := ctx.Args().Get(1)
+
+	if groupId == "" {
+		return nil, fmt.Errorf("required argument GROUPID not provided")
+	}
+
+	return &RequestPayload{
+		ProjectName:      ctx.Args().Get(0),
+		GroupId:          ctx.Args().Get(1),
 		Effect:           getEffect(ctx.String("effect")),
 		Implementation:   getImplementation(ctx.String("server")),
 		ScalaVersion:     fmt.Sprintf("Scala%d", ctx.Int("scala-version")),
@@ -38,11 +50,14 @@ func BuildRequestPayload(ctx *cli.Context) RequestPayload {
 		Json:             getJson(ctx.String("json-library")),
 		AddDocumentation: ctx.Bool("swagger"),
 		AddMetrics:       ctx.Bool("metrics"),
-	}
+	}, nil
 }
 
 func DownloadProject(ctx *cli.Context) error {
-	payload := BuildRequestPayload(ctx)
+	payload, err := BuildRequestPayload(ctx)
+	if err != nil {
+		return err
+	}
 
 	buf, err := json.Marshal(&payload)
 	if err != nil {
