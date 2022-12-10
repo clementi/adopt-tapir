@@ -13,7 +13,7 @@ To build, clone this repo, and in the repo directory, do the following:
 $ go build
 ```
 
-This will produce an executable called `adopt-tapir-cli-go`.
+This will produce an executable called `adopt-tapir`.
 
 ## Binaries
 
