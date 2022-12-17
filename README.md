@@ -15,7 +15,15 @@ $ go build
 
 This will produce an executable called `adopt-tapir`.
 
-## Binaries
+## Installation
+
+### Using `go install`
+
+```sh
+go install github.com/clementi/adopt-tapir@latest
+```
+
+### Binaries
 
 Binaries for Windows, Linux, macOS (arm64 and amd64), FreeBSD, NetBSD and OpenBSD are available on the [Releases](https://github.com/clementi/adopt-tapir-cli-go/releases) page.
 
